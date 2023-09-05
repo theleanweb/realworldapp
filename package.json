@@ -1,0 +1,22 @@
+{
+  "name": "leanweb-kit-starter",
+  "version": "1.0.0",
+  "description": "Lean Web Kit starter",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "Joshua Amaju",
+  "license": "ISC",
+  "devDependencies": {
+    "svelte": "^4.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.4"
+  },
+  "dependencies": {
+    "leanweb-kit": "^1.0.4"
+  }
+}
