@@ -1,6 +1,6 @@
-import { Router, render } from "leanweb-kit/runtime";
+import { createRouter, render } from "leanweb-kit/runtime";
 
-const app = new Router();
+const app = createRouter();
 
 app.get("/", () => render("home"));
 
