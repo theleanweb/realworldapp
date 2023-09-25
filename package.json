@@ -27,7 +27,7 @@
     "@http-kit/client": "^0.1.0",
     "effect": "2.0.0-next.34",
     "http-kit": "^0.4.0",
-    "leanweb-kit": "^1.1.1",
+    "leanweb-kit": "^1.1.2",
     "marked": "^9.0.3"
   }
 }

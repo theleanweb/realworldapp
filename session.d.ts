@@ -1,4 +1,4 @@
-type User = any;
+import { User } from "./src/core/workflows/authentication.js";
 
 declare module "@hattip/session" {
   interface SessionData {
