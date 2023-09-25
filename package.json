@@ -25,6 +25,7 @@
     "@hattip/router": "^0.0.35",
     "@hattip/session": "^0.0.35",
     "@http-kit/client": "^0.1.0",
+    "@leanweb-kit/adapter-vercel": "^0.0.1",
     "effect": "2.0.0-next.34",
     "http-kit": "^0.4.0",
     "leanweb-kit": "^1.1.2",
