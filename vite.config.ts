@@ -5,7 +5,7 @@ import adapter from "@leanweb-kit/adapter-vercel";
 import { leanweb } from "leanweb-kit/vite";
 
 export default defineConfig({
-  plugins: [leanweb({ adapter: adapter({ maxDuration: 1000 }) })],
+  plugins: [leanweb({ adapter: adapter({ maxDuration: 300 }) })],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
