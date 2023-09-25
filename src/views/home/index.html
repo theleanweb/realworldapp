@@ -1,79 +1,95 @@
 <script>
-  import Layout from "../../components/layout.html";
+  import PopularTags from "./components/popular-tags.html";
+  import ArticlePreview from "@/components/article-preview.html";
+  import Layout from "@/components/layout.html";
+  import Header from "@/components/header.html";
+  import Pagination from "@/components/pagination.html";
+
+  import { Tab } from "../../types/index.ts";
+
+  export let user;
+  export let tab;
+  export let tags;
+  export let activeTag;
+
+  export let articles;
+  export let articlesCount;
 </script>
 
 <svelte:head>
-  <script src="./app.ts" type="module" defer></script>
+  <title>Home - Conduit</title>
 </svelte:head>
 
-<Layout title="Welcome to Lean Web Kit.">
-  <main>
-    <h1>Welcome to <span class="text-gradient">Lean Web Kit</span></h1>
+<Layout>
+  <Header {user} />
 
-    <div class="counter">
-      <button class="counter__trigger">
-        count is <span class="counter__label">0</span>
-      </button>
+  <div class="home-page">
+    {#if !user}
+      <div class="banner">
+        <div class="container">
+          <h1 class="logo-font">conduit</h1>
+          <p>A place to share your knowledge.</p>
+        </div>
+      </div>
+    {/if}
+
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="feed-toggle">
+            <ul class="nav nav-pills outline-active">
+              {#if user}
+                <li class="nav-item">
+                  <a
+                    href="/?tab=personal"
+                    class="nav-link {tab === Tab.Personal ? 'active' : ''}"
+                  >
+                    Your Feed
+                  </a>
+                </li>
+              {/if}
+
+              <li class="nav-item">
+                <a
+                  href="/?tab=global"
+                  class="nav-link {tab === Tab.Global ? 'active' : ''}"
+                >
+                  Global Feed
+                </a>
+              </li>
+
+              {#if activeTag}
+                <li class="nav-item">
+                  <a
+                    class="nav-link {tab === Tab.Tag ? 'active' : ''}"
+                    href="/?tag={activeTag}"
+                  >
+                    #{activeTag}
+                  </a>
+                </li>
+              {/if}
+            </ul>
+          </div>
+
+          {#if articles}
+            {#if articles.length === 0}
+              <div>No articles are here... yet.</div>
+            {:else}
+              {#each articles as article}
+                <ArticlePreview {article} />
+              {/each}
+            {/if}
+          {/if}
+
+          {#if articlesCount > 10}
+            <Pagination count={articlesCount} limit={10} />
+          {/if}
+        </div>
+
+        <div class="col-md-3">
+          <PopularTags {tags} />
+        </div>
+      </div>
     </div>
-  </main>
+  </div>
 </Layout>
-
-<style>
-  main {
-    margin: auto;
-    width: 800px;
-    color: white;
-    padding: 1rem;
-    font-size: 20px;
-    line-height: 1.6;
-    max-width: calc(100% - 2rem);
-  }
-
-  button {
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: 500;
-    border-radius: 8px;
-    padding: 0.6em 1.2em;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    border: 1px solid transparent;
-    transition: border-color 0.25s;
-  }
-
-  button:hover {
-    border-color: #646cff;
-  }
-
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-
-  h1 {
-    line-height: 1;
-    font-size: 4rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 1em;
-  }
-
-  .text-gradient {
-    background-size: 400%;
-    background-position: 0%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-image: var(--accent-gradient);
-  }
-
-  .counter {
-    display: flex;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    background: #23262d;
-    justify-content: center;
-    border: 1px solid rgba(var(--accent-light), 25%);
-  }
-</style>
