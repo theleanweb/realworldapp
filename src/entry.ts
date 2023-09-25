@@ -120,12 +120,12 @@ app.get("/articles/:slug", async (ctx) => {
     Effect.flatMap(Articles.Articles, (articles) =>
       articles.getArticle((ctx.params as any).slug)
     ),
-    provideHttpWithToken((ctx.session.data as any).user.token),
+    provideHttpWithToken(ctx.session.data.user!.token),
     Effect.provideLayer(Articles.ArticlesLive),
     Effect.runPromise
   );
 
-  return render("article", { ...data, user: (ctx.session.data as any).user });
+  return render("article", { ...data, user: ctx.session.data.user });
 });
 // =========== Articles =============
 
@@ -142,14 +142,14 @@ app.get("/editor/:slug?", (ctx) => {
 
     return yield* _(
       Effect.tryPromise(() =>
-        render("editor", { article, user: (ctx.session.data as any).user })
+        render("editor", { article, user: ctx.session.data.user })
       )
     );
   });
 
   return pipe(
     program,
-    provideHttpWithToken((ctx.session.data as any).user.token),
+    provideHttpWithToken(ctx.session.data.user!.token),
     Effect.provideLayer(Articles.ArticlesLive),
     Effect.runPromise
   );
@@ -163,7 +163,7 @@ app.post("/editor", async (ctx) => {
 
 // ============= Settings =============
 app.get("/settings", (ctx) =>
-  render("settings", { user: (ctx.session.data as any).user })
+  render("settings", { user: ctx.session.data.user })
 );
 
 app.post("/settings", (ctx) => {
@@ -182,12 +182,12 @@ app.post("/settings", (ctx) => {
     Effect.catchAll(() => {
       return Effect.tryPromise(() => {
         return render("settings", {
-          user: (ctx.session.data as any).user,
+          user: ctx.session.data.user,
           errors: null,
         });
       });
     }),
-    provideHttpWithToken((ctx.session.data as any).user.token),
+    provideHttpWithToken(ctx.session.data.user!.token),
     Effect.provideLayer(Authentication.AuthenticationLive),
     Effect.runPromise
   );
@@ -195,7 +195,7 @@ app.post("/settings", (ctx) => {
 // ============= Settings =============
 
 app.get("/", async (ctx) => {
-  const { user } = ctx.session.data as any;
+  const { user } = ctx.session.data;
 
   if (!user) {
     return new Response("", {
@@ -255,7 +255,7 @@ app.get("/", async (ctx) => {
     program,
     Effect.provideSomeLayer(Tags.TagsLive),
     Effect.provideSomeLayer(Articles.ArticlesLive),
-    provideHttpWithToken((ctx.session.data as any).user.token),
+    provideHttpWithToken(ctx.session.data.user!.token),
     Effect.runPromise
   );
 });
